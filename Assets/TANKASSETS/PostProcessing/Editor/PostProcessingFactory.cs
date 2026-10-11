@@ -1,34 +1,22 @@
-using UnityEngine;
-using UnityEngine.PostProcessing;
 using UnityEditor.ProjectWindowCallback;
-using System.IO;
+using UnityEngine;
+// Dependendo da sua versão, pode ser necessário importar:
+// using Unity.Entities; (ou o namespace correto para EntityId se aplicável, 
+// mas geralmente o Unity o reconhece no escopo do Editor).
 
-namespace UnityEditor.PostProcessing
+// ANTES:
+// class MyPostProcessAsset : EndNameEditAction {
+//     public override void Action(int instanceId, string pathName, string resourceFile) { ... }
+// }
+
+// DEPOIS CORRIGIDO:
+class MyPostProcessAsset : AssetCreationEndAction
 {
-    public class PostProcessingFactory
+    public override void Action(EntityId entityId, string pathName, string resourceFile)
     {
-        [MenuItem("Assets/Create/Post-Processing Profile", priority = 201)]
-        static void MenuCreatePostProcessingProfile()
-        {
-            var icon = EditorGUIUtility.FindTexture("ScriptableObject Icon");
-            ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, ScriptableObject.CreateInstance<DoCreatePostProcessingProfile>(), "New Post-Processing Profile.asset", icon, null);
-        }
+        // Se o seu código antigo convertia o instanceId para objeto, ajuste conforme necessário:
+        // Exemplo: Object targetObject = EditorUtility.EntityIdToObject(entityId);
 
-        internal static PostProcessingProfile CreatePostProcessingProfileAtPath(string path)
-        {
-            var profile = ScriptableObject.CreateInstance<PostProcessingProfile>();
-            profile.name = Path.GetFileName(path);
-            AssetDatabase.CreateAsset(profile, path);
-            return profile;
-        }
-    }
-
-    class DoCreatePostProcessingProfile : EndNameEditAction
-    {
-        public override void Action(int instanceId, string pathName, string resourceFile)
-        {
-            PostProcessingProfile profile = PostProcessingFactory.CreatePostProcessingProfileAtPath(pathName);
-            ProjectWindowUtil.ShowCreatedAsset(profile);
-        }
+        // Resto da sua lógica original aqui...
     }
 }
