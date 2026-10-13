@@ -7,7 +7,7 @@ public class Graph
 {
     List<Edge> edges = new List<Edge>(); 
     List<Node> nodes = new List<Node>();
-    List<Node> pathList = new List<Node>();
+    public List<Node> pathList = new List<Node>();
 
     public Graph() { }
 
@@ -15,6 +15,7 @@ public class Graph
     {
         Node node = new Node(id);
         nodes.Add(node);
+        
     }
 
   
@@ -91,7 +92,7 @@ public class Graph
                 {
                     tentative_is_better = true;
                 }
-
+              
                 else
                     tentative_is_better = false;
 
